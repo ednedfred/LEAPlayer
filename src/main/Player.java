@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 
+
 public class Player extends JFrame implements ActionListener {
 
 	//ID for serialization
@@ -79,15 +80,30 @@ public class Player extends JFrame implements ActionListener {
 		setVisible(true);
 	}
 
+	private void play(String pathName)
+	{				
+				
+	}
 	//NOTE: The two most important methods will be 'play' and 'stop'
 	//We need to work on those first
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getSource() == prev)
 			System.out.println("Previous");
 		if (arg0.getSource() == pp)
-			System.out.println("Play");
+		{
+			String songName = (String) musicList.getSelectedValue();
+			String pathName = null;
+			for (int x = 0; x < theList.size(); x++)
+				if (theList.get(x).getName() == songName)
+					pathName = theList.get(x).getPath();
+			
+			play(pathName);
+		}
 		if (arg0.getSource() == stop)
+		{
 			System.out.println("Stop");
+			System.out.println(musicList.getSelectedValue());
+		}
 		if (arg0.getSource() == next)
 			System.out.println("Next");
 	}
