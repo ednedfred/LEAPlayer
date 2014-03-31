@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 
 public class Driver {
 
-	public static Player thePlayer;
+	public static MusicPlayer thePlayer;
 	public static ArrayList<Song> theList;
 	
 	public static void main(String[] args)
@@ -23,7 +23,7 @@ public class Driver {
 		
 		checkFile();
 		addSongs();
-		thePlayer = new Player(theList);
+		thePlayer = new MusicPlayer(theList);
 	}
 	
 	//Method that checks to see if the home file exists
@@ -108,13 +108,13 @@ public class Driver {
 		File curDir = null;
 
 		File allFiles[];
-		
+
 		while (!fStack.empty())
 		{
 			curDir = new File(fStack.pop());
 			
 			allFiles = curDir.listFiles();
-
+			
 			for (int x = 0; x < allFiles.length; x++)
 			{
 				if (allFiles[x].isFile() && allFiles[x].getName() != ".DS_Store")
@@ -122,6 +122,23 @@ public class Driver {
 				else if (allFiles[x].getName() != "." && allFiles[x].getName() != "..")
 					fStack.push(allFiles[x].getAbsolutePath());
 			}
+		}
+		
+		
+		ArrayList<String> nonWavs = new ArrayList<String>();
+		
+		for (int x = 0; x < theList.size(); x++)
+			if (!theList.get(x).getName().toLowerCase().contains(".wav"))
+				nonWavs.add(theList.get(x).getName());
+		
+		for (String name : nonWavs)
+		{
+			for (int x = 0; x < theList.size(); x++)
+				if (name == theList.get(x).getName())
+				{
+					theList.remove(x);
+					break;
+				}
 		}
 		
 	}
