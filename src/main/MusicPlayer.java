@@ -41,10 +41,10 @@ public class MusicPlayer extends JFrame implements ActionListener, ChangeListene
 	
 	private JPanel bPanel = new JPanel();
 	
-	private JButton pp = new JButton("Play");
-	private JButton stop = new JButton("Stop");
-	private JButton next = new JButton("Next");
-	private JButton prev = new JButton("Prev");
+	protected JButton pp = new JButton("Play");
+	protected JButton stop = new JButton("Stop");
+	protected JButton next = new JButton("Next");
+	protected JButton prev = new JButton("Prev");
 	
 	private DefaultListModel music = new DefaultListModel();
 	private JList musicList = new JList(music);

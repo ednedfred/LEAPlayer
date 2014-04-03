@@ -1,5 +1,6 @@
 package main;
 
+
 import java.util.ArrayList;
 import java.util.Stack;
 import java.io.BufferedReader;
@@ -12,6 +13,8 @@ import java.io.PrintWriter;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+import com.leapmotion.leap.Controller;
+
 public class Driver {
 
 	public static MusicPlayer thePlayer;
@@ -19,11 +22,19 @@ public class Driver {
 	
 	public static void main(String[] args)
 	{
+
 		theList = new ArrayList<Song>();
 		
 		checkFile();
 		addSongs();
 		thePlayer = new MusicPlayer(theList);
+		
+		
+		
+		PlayerFrameListener listener = new PlayerFrameListener(thePlayer);
+		Controller controller = new Controller();
+
+		controller.addListener(listener);
 	}
 	
 	//Method that checks to see if the home file exists
