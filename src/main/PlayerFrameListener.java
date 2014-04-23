@@ -4,11 +4,12 @@ package main;
 
 import java.util.Date;
 
+import com.leapmotion.leap.CircleGesture;
 import com.leapmotion.leap.Controller;
 import com.leapmotion.leap.Frame;
 import com.leapmotion.leap.Gesture;
+import com.leapmotion.leap.GestureList;
 import com.leapmotion.leap.Listener;
-import com.leapmotion.leap.Vector;
 
 
 public class PlayerFrameListener extends Listener
@@ -37,11 +38,11 @@ public class PlayerFrameListener extends Listener
 	}
 
     public void onConnect(Controller controller) {
-	        System.out.println("Connected");
+	        System.out.println("Leap Connected");
 
 	        //These are required to place in order for the leap motion to be able to detect any gestures of these types
 	        controller.enableGesture(Gesture.Type.TYPE_SWIPE);
-//	        controller.enableGesture(Gesture.Type.TYPE_CIRCLE);
+	        controller.enableGesture(Gesture.Type.TYPE_CIRCLE);
 //	        controller.enableGesture(Gesture.Type.TYPE_SCREEN_TAP);
 	        controller.enableGesture(Gesture.Type.TYPE_KEY_TAP);
 	    }	
@@ -53,6 +54,7 @@ public class PlayerFrameListener extends Listener
 	public void onFrame(Controller controller)
 	{
 		// TODO Auto-generated method stub
+
 		super.onFrame(controller);
 		Frame frame = controller.frame(); //This is like a snapshot of the current frame that the leap has registered
 		processFrameGestures(frame); //Sends the frame for processing
@@ -72,7 +74,7 @@ public class PlayerFrameListener extends Listener
 	{
 		if(frame.gestures().count() > 0)
 		{
-			for(int g = 0; g < frame.gestures().count(); g++) //Iterate through the gestures in the frame
+			for(int g = 0; g < frame.gestures().count() ; g++) //Iterate through the gestures in the frame   frame.gestures().count()
 			{
 
 				//frame.gestures().get(g).type() returns an Enum of one of four different types of gestures. This enum list is not changable, the source code 
@@ -82,10 +84,31 @@ public class PlayerFrameListener extends Listener
 						//Handle circle gestures
 				    	CdeltaTime = new Date().getTime() - lastCircleTime; //Time since last gesture = Current Time - Time at which last gesture happened
 
-				    	if(CdeltaTime > 400) //This is the buffer time, to prevent duplicate gesture analysis
+				    	if(CdeltaTime > 1000) //This is the buffer time, to prevent duplicate gesture analysis
 				    	{
 							System.out.println("CIRCLE"); //woo
 					    	lastCircleTime = new Date().getTime(); //set the time at which the last gesture was completed. (NOW)
+					    
+					    	CircleGesture circle = new CircleGesture(frame.gestures().get(g));
+					    	Boolean cw;
+					        if (circle.pointable().direction().angleTo(circle.normal()) <= Math.PI/2) {
+					                cw = true;
+					                System.out.println("clockwise");
+					        }
+					        else
+					        {
+					            cw = false;
+					            System.out.println("counterclockwise");
+					        }
+					    	
+					        
+					        if(cw == true)
+					        	thePlayer.volume.setValue(thePlayer.volume.getValue()+1);
+					        else
+					        	thePlayer.volume.setValue(thePlayer.volume.getValue()-1);
+					    	
+					    	
+					    	
 				    	}
 						break;
 

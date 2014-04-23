@@ -42,7 +42,6 @@ public class MusicPlayer extends JFrame implements ActionListener, ChangeListene
 	private JPanel bPanel = new JPanel();
 	
 	protected JButton pp = new JButton("Play");
-	protected JButton stop = new JButton("Stop");
 	protected JButton next = new JButton("Next");
 	protected JButton prev = new JButton("Prev");
 	
@@ -59,7 +58,7 @@ public class MusicPlayer extends JFrame implements ActionListener, ChangeListene
 
 	private Player player = null;
 	
-	private JSlider volume = new JSlider(0, 20);
+	protected JSlider volume = new JSlider(0, 20);
 	
 	//
 	private int currentSong = 0;
@@ -73,14 +72,12 @@ public class MusicPlayer extends JFrame implements ActionListener, ChangeListene
 		
 		bPanel.add(prev);
 		bPanel.add(pp);
-		bPanel.add(stop);
 		bPanel.add(next);
 		bPanel.add(volume);
 		
 		prev.addActionListener(this);
 		pp.addActionListener(this);
 		next.addActionListener(this);
-		stop.addActionListener(this);
 		
 		//Add listener to search and volume
 		search.getDocument().addDocumentListener(this);
@@ -114,7 +111,44 @@ public class MusicPlayer extends JFrame implements ActionListener, ChangeListene
 	{
 		//Stops current song if playing
 		if (player != null)
+		{
 			player.stop();
+			player = null;
+			pp.setText("Play");
+		}
+		else
+		{
+		
+		File f = new File(pathName);
+		
+		MediaLocator ml = null;
+		try {
+			ml = new MediaLocator(f.toURL());
+		} catch (MalformedURLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			player = Manager.createPlayer(ml);
+		} catch (NoPlayerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		pp.setText("Stop");
+		player.start();
+		}
+	}
+	
+	@SuppressWarnings("deprecation")
+	private void playPN(String pathName)
+	{
+		//Stops current song if playing
+		if (player != null)
+			player.stop();
+		
 		player = null;
 		
 		File f = new File(pathName);
@@ -135,6 +169,37 @@ public class MusicPlayer extends JFrame implements ActionListener, ChangeListene
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		pp.setText("Stop");
+		player.start();
+	}
+	
+	@SuppressWarnings("deprecation")
+	private void playPN2(String pathName)
+	{
+		//Stops current song if playing
+		pp.setText("Stop");
+		
+		player = null;
+		
+		File f = new File(pathName);
+		
+		MediaLocator ml = null;
+		try {
+			ml = new MediaLocator(f.toURL());
+		} catch (MalformedURLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			player = Manager.createPlayer(ml);
+		} catch (NoPlayerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		pp.setText("Stop");
 		player.start();
 	}
 
@@ -144,8 +209,8 @@ public class MusicPlayer extends JFrame implements ActionListener, ChangeListene
 		if (arg0.getSource() == prev)
 		{
 			currentSong--;
-			if (currentSong == 0)
-				currentSong = music.size() - 1;
+			if (currentSong < 0)
+				currentSong = 0;
 			
 			String songName = music.get(currentSong).toString();
 			String pathName = null;
@@ -154,7 +219,10 @@ public class MusicPlayer extends JFrame implements ActionListener, ChangeListene
 				if (theList.get(x).getName() == songName)
 					pathName = theList.get(x).getPath();
 			
-			play(pathName);
+			if (player == null)
+				playPN2(pathName);
+			else
+				playPN(pathName);
 		}
 		
 		if (arg0.getSource() == pp)
@@ -166,13 +234,6 @@ public class MusicPlayer extends JFrame implements ActionListener, ChangeListene
 					pathName = theList.get(x).getPath();
 			
 			play(pathName);
-		}
-		
-		if (arg0.getSource() == stop)
-		{
-			if (player != null)
-				player.stop();
-			player = null;
 		}
 		
 		if (arg0.getSource() == next)
@@ -190,7 +251,10 @@ public class MusicPlayer extends JFrame implements ActionListener, ChangeListene
 				if (theList.get(x).getName() == songName)
 					pathName = theList.get(x).getPath();
 			
-			play(pathName);
+			if (player == null)
+				playPN2(pathName);
+			else
+				playPN(pathName);
 		}
 	}
 

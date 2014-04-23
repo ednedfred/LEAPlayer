@@ -35,6 +35,19 @@ public class Driver {
 		Controller controller = new Controller();
 
 		controller.addListener(listener);
+		
+		
+		System.out.println("Press Enter to Quit...");
+		try
+		{	
+			System.in.read();
+
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		controller.removeListener(listener);
+		
 	}
 	
 	//Method that checks to see if the home file exists
