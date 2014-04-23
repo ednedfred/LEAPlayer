@@ -7,5 +7,25 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="LEAPlayer/Leap Lib"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="MusicPlayer/customizer.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="LEAPlayer/MusicPlayer"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="MusicPlayer/jmf.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="LEAPlayer/MusicPlayer"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="MusicPlayer/mediaplayer.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="LEAPlayer/MusicPlayer"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="MusicPlayer/multiplayer.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="LEAPlayer/MusicPlayer"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
